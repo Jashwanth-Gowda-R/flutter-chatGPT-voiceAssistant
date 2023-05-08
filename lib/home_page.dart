@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       lastWords = result.recognizedWords;
     });
+    // print(lastWords);
   }
 
   // Future<void> systemSpeak(String content) async {
