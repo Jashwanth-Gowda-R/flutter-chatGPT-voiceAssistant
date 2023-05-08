@@ -1,4 +1,5 @@
 import 'package:chatgpt/feature_box.dart';
+import 'package:chatgpt/openai_service.dart';
 import 'package:chatgpt/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   final speechToText = SpeechToText();
   // final flutterTts = FlutterTts();
   String lastWords = '';
-  // final OpenAIService openAIService = OpenAIService();
+  final OpenAIService openAIService = OpenAIService();
   String? generatedContent;
   String? generatedImageUrl;
   int start = 200;
@@ -179,17 +180,17 @@ class _HomePageState extends State<HomePage> {
           if (await speechToText.hasPermission && speechToText.isNotListening) {
             await startListening();
           } else if (speechToText.isListening) {
-            // final speech = await openAIService.isArtPromptAPI(lastWords);
-            // if (speech.contains('https')) {
-            //   generatedImageUrl = speech;
-            //   generatedContent = null;
-            //   setState(() {});
-            // } else {
-            //   generatedImageUrl = null;
-            //   generatedContent = speech;
-            //   setState(() {});
-            //   // await systemSpeak(speech);
-            // }
+            final speech = await openAIService.isArtPromptAPI(lastWords);
+            if (speech.contains('https')) {
+              generatedImageUrl = speech;
+              generatedContent = null;
+              setState(() {});
+            } else {
+              generatedImageUrl = null;
+              generatedContent = speech;
+              setState(() {});
+              // await systemSpeak(speech);
+            }
             await stopListening();
           } else {
             initSpeechToText();
